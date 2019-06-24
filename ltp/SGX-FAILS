@@ -56,6 +56,9 @@ fork04,1
 fork04,2
 fork04,3
 fork11,1
+ftruncate03,1
+ftruncate03,2
+ftruncate03,3
 futex_wait05,1
 futex_wait_bitset01,1
 futex_wait_bitset02,1
@@ -79,7 +82,10 @@ getpeername01,3
 getpeername01,4
 getpeername01,5
 getpeername01,6
+getsockname01,3
+getsockname01,4
 getuid03,1
+kill09,1
 mincore01,1
 mincore01,2
 mincore01,3
@@ -112,6 +118,8 @@ pipe04,1
 pipe04,2
 pipe09,1
 poll02,1
+pread02_64,1
+pread02_64,2
 pselect01,1
 pselect01,2
 pselect01,3

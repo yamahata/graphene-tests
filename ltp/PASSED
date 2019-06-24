@@ -171,9 +171,6 @@ ftruncate01,1
 ftruncate01_64,1
 ftruncate02,1
 ftruncate02_64,1
-ftruncate03,1
-ftruncate03,2
-ftruncate03,3
 ftruncate03_64,1
 ftruncate03_64,2
 ftruncate03_64,3
@@ -231,8 +228,6 @@ getrlimit01,16
 getrlimit02,1
 getrlimit02,2
 getsid01,1
-getsockname01,3
-getsockname01,4
 getsockopt01,1
 getsockopt01,2
 getsockopt01,3
@@ -243,7 +238,6 @@ gettid01,1
 getuid01,1
 kill01,1
 kill03,1
-kill09,1
 listen01,1
 listen01,2
 llseek02,1
@@ -318,8 +312,6 @@ pread01,1
 pread01_64,1
 pread02,1
 pread02,2
-pread02_64,1
-pread02_64,2
 process_vm01,2
 process_vm01,4
 process_vm01,6
