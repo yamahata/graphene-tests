@@ -13,7 +13,6 @@ accept4_01,4
 alarm02,1
 alarm02,2
 alarm02,3
-alarm03,2
 alarm05,1
 asyncio02,1
 asyncio02,2
@@ -29,9 +28,6 @@ bind01,5
 brk01,1
 chdir01,1
 chdir02,1
-chdir04,1
-chdir04,2
-chdir04,3
 chmod01,1
 chmod01,2
 chmod01,3
@@ -152,9 +148,6 @@ fork01,1
 fork01,2
 fork02,1
 fork03,1
-fork04,1
-fork04,2
-fork04,3
 fpathconf01,1
 fpathconf01,2
 fpathconf01,3
@@ -189,21 +182,11 @@ futex_wait01,2
 futex_wait01,3
 futex_wait01,4
 futex_wait04,1
-futex_wake01,1
-futex_wake01,2
-futex_wake01,3
-futex_wake01,4
-futex_wake01,5
-futex_wake01,6
 getcontext01,1
 getcwd01,1
 getcwd01,2
 getcwd01,3
 getcwd01,4
-getcwd02,3
-getcwd02,4
-getcwd02,5
-getcwd02,8
 getdents02,1
 getdents02,2
 getdents02,3
@@ -217,7 +200,6 @@ getgroups01,1
 getgroups01,2
 getgroups01,3
 getgroups01,4
-getgroups03,1
 gethostbyname_r01,1
 gethostname01,1
 getitimer01,1
@@ -299,10 +281,6 @@ mkdirat01,2
 mkdirat01,3
 mkdirat01,4
 mkdirat01,5
-mincore01,1
-mincore01,2
-mincore01,3
-mincore01,4
 mlock03,1
 mmap02,1
 mmap03,1
@@ -313,7 +291,6 @@ msgsnd03,3
 msgsnd03,4
 msgsnd04,1
 munmap03,3
-nanosleep03,1
 newuname01,1
 open01,2
 open03,1
@@ -374,10 +351,6 @@ readv01,2
 readv02,1
 readv02,3
 readv02,4
-recv01,1
-recv01,2
-recvfrom01,1
-recvfrom01,2
 recvmsg01,1
 recvmsg01,2
 rmdir01,1
@@ -728,7 +701,6 @@ setitimer01,1
 setpgrp01,1
 setpgrp02,1
 setgroups01,1
-setgroups02,1
 setgroups03,1
 setsockopt01,1
 setsockopt01,2
