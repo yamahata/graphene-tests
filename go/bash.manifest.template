@@ -8,8 +8,8 @@ loader.env.PATH = $(GOROOTDIR)/go/bin:/bin:/bin:/usr/bin
 loader.env.USERNAME = root
 loader.env.HOME = /
 loader.env.GOROOT = $(GOROOTDIR)/go
-# loader.debug_type = none
-loader.debug_type = inline
+loader.debug_type = none
+# loader.debug_type = inline
 
 fs.mount.lib1.type = chroot
 fs.mount.lib1.path = /lib
@@ -52,4 +52,4 @@ sgx.trusted_files.go_bin_go = file:$(GOROOTDIR)/go/bin/go
 
 # trusted children
 # sgx.trusted_children.go = file:_go.sig
-sgx.trusted_children.go_bin_go = file:go_bin_go.sig
+sgx.trusted_children.go_bin_go = file:go.sig

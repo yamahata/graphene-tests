@@ -62,7 +62,8 @@ GO_EXECUTABLES = \
 	go/src/syscall/mksysnum_plan9.sh \
 	go/test/errchk
 
-convert_name = $(subst .,_,$(subst /,-,$(1)))
+# convert_name = $(subst .,_,$(subst /,-,$(1)))
+convert_name = $(notdir $(1))
 GO_EXECUTABLE_IDS = $(foreach executable,$(GO_EXECUTABLES),$(call convert_name,$(executable)))
 
 manifests = $(addsuffix .manifest,$(OUT_OF_TREE_EXECUTABLES) $(IN_TREE_EXECUTABLES))
@@ -94,4 +95,4 @@ endef
 $(foreach executable,$(GO_EXECUTABLES),$(eval $(call sgx_sign_template,$(call convert_name,$(executable)),$(executable))))
 
 clean:
-	rm -rf $(CLEAN_FILES)
+	rm -rf $(CLEAN_FILES) *.token

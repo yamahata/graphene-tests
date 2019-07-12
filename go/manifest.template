@@ -1,14 +1,14 @@
 #!$(PAL)
 
 loader.preload = file:$(SHIMPATH)
-loader.exec = file:$(EXEC_PATH)
-loader.execname = $(EXEC_PATH)
+# loader.exec = file:$(EXEC_PATH)
+# loader.execname = $(EXEC_PATH)
 loader.env.LD_LIBRARY_PATH = /lib:/lib/x86_64-linux-gnu:/usr/lib:/usr/lib/x86_64-linux-gnu
 loader.env.PATH = /bin:/usr/bin
 loader.env.USERNAME = root
 loader.env.HOME = /
-# loader.debug_type = none
-loader.debug_type = inline
+loader.debug_type = none
+# loader.debug_type = inline
 
 fs.mount.lib1.type = chroot
 fs.mount.lib1.path = /lib
