@@ -1,4 +1,4 @@
-CUR_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+GO_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 
 OUT_OF_TREE_EXECUTABLES = \
 	bash \
@@ -82,10 +82,11 @@ token_files_extra = $(addsuffix .token,$(OUT_OF_TREE_EXECUTABLES) $(GO_EXECUTABL
 #	ln -sf $< $@
 
 # extra_rules = -e 's:\$$(EXEC_PATH):$<:g' -e 's:-:/:g' -e 's:_:.:g'
+extra_rules = -e 's:\$$(GOROOTDIR):$(GO_DIR):g'
 
 level = ../../
 include ../../Makefile
 include ../../../../../Makefile.rules
 
 test:
-	GOCACHE=off GOROOT=$(CUR_DIR)/go ./pal-Linux-SGX ./bash.manifest.sgx  ./go/src/run.bash --no-rebuild
+	GOCACHE=off GOROOT=$(GO_DIR)/go ./pal-Linux-SGX ./bash.manifest.sgx  ./go/src/run.bash --no-rebuild

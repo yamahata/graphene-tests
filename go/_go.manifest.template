@@ -39,3 +39,7 @@ sgx.thread_num = 16
 sgx.debug = 1
 
 sgx.allowed_files.godir = file:go
+
+sgx.trusted_files.libpthread = file:$(LIBCDIR)/libpthread.so.0
+sgx.trusted_files.libc = file:$(LIBCDIR)/libc.so.6
+sgx.trusted_files.ld = file:$(LIBCDIR)/ld-linux-x86-64.so.2

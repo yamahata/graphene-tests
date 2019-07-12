@@ -4,9 +4,10 @@ loader.preload = file:$(SHIMPATH)
 loader.exec = file:/bin/bash
 loader.execname = /bin/bash
 loader.env.LD_LIBRARY_PATH = /lib:/lib/x86_64-linux-gnu:/usr/lib:/usr/lib/x86_64-linux-gnu
-loader.env.PATH = /bin:/usr/bin
+loader.env.PATH = $(GOROOTDIR)/go/bin:/bin:/bin:/usr/bin
 loader.env.USERNAME = root
 loader.env.HOME = /
+loader.env.GOROOT = $(GOROOTDIR)/go
 # loader.debug_type = none
 loader.debug_type = inline
 
@@ -26,6 +27,10 @@ fs.mount.usr.type = chroot
 fs.mount.usr.path = /usr
 fs.mount.usr.uri = file:/usr
 
+fs.mount.goroot.type = chroot
+fs.mount.goroot.path = $(GOROOTDIR)
+fs.mount.goroot.uri = file:$(GOROOTDIR)
+
 sys.brk.size = 256K
 
 sgx.trusted_files.ld = file:$(LIBCDIR)/ld-linux-x86-64.so.2
@@ -38,12 +43,13 @@ sgx.trusted_files.libnss2 = file:/lib/x86_64-linux-gnu/libnss_compat.so.2
 sgx.trusted_files.libnss3 = file:/lib/x86_64-linux-gnu/libnss_files.so.2
 sgx.trusted_files.libtinfo = file:/lib/x86_64-linux-gnu/libtinfo.so.5
 
-sgx.allowed_files.godir = file:go
+sgx.allowed_files.godir0 = file:go
+sgx.allowed_files.godir1 = file:$(GOROOTDIR)/go
 
 # trusted files
-sgx.trusted_files.go = file:/usr/bin/go
-sgx.trusted_files.go_bin_go = file:go/bin/go
+# sgx.trusted_files.go = file:/usr/bin/go
+sgx.trusted_files.go_bin_go = file:$(GOROOTDIR)/go/bin/go
 
 # trusted children
-sgx.trusted_children.go = file:_go.sig
+# sgx.trusted_children.go = file:_go.sig
 sgx.trusted_children.go_bin_go = file:go_bin_go.sig
