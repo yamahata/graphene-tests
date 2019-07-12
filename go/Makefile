@@ -11,10 +11,6 @@ GO_EXECUTABLES = \
 	go/doc/articles/wiki/test.bash \
 	go/doc/codewalk/run \
 	go/lib/time/update.bash \
-	go/pkg/bootstrap/bin/asm \
-	go/pkg/bootstrap/bin/cgo \
-	go/pkg/bootstrap/bin/compile \
-	go/pkg/bootstrap/bin/link \
 	go/pkg/tool/linux_amd64/addr2line \
 	go/pkg/tool/linux_amd64/api \
 	go/pkg/tool/linux_amd64/asm \
@@ -39,30 +35,20 @@ GO_EXECUTABLES = \
 	go/src/buildall.bash \
 	go/src/clean.bash \
 	go/src/cmd/go/mkalldocs.sh \
-	go/src/cmd/go/testdata/failssh/ssh \
-	go/src/cmd/internal/buildid/testdata/a.elf \
-	go/src/cmd/internal/buildid/testdata/a.macho \
-	go/src/cmd/internal/buildid/testdata/a.pe \
-	go/src/debug/dwarf/testdata/ranges.elf \
-	go/src/debug/dwarf/testdata/typedef.elf \
 	go/src/internal/trace/mkcanned.bash \
 	go/src/iostest.bash \
 	go/src/make.bash \
 	go/src/naclmake.bash \
 	go/src/nacltest.bash \
-	go/src/net/http/cgi/testdata/test.cgi \
 	go/src/race.bash \
 	go/src/run.bash \
-	go/src/runtime/pprof/testdata/test32 \
-	go/src/runtime/pprof/testdata/test32be \
-	go/src/runtime/pprof/testdata/test64 \
-	go/src/runtime/pprof/testdata/test64be \
 	go/src/syscall/mkall.sh \
 	go/src/syscall/mkerrors.sh \
 	go/src/syscall/mksysnum_plan9.sh \
 	go/test/errchk
 
 # convert_name = $(subst .,_,$(subst /,-,$(1)))
+# convert_name = $(subst .,_,$(notdir $(1)))
 convert_name = $(notdir $(1))
 GO_EXECUTABLE_IDS = $(foreach executable,$(GO_EXECUTABLES),$(call convert_name,$(executable)))
 
@@ -83,16 +69,16 @@ test:
 
 define sgx_sign_template =
 $(1).sig $(1).manifest.sgx: $(2) $(LIBPAL) $(SGX_SIGNER_KEY)
-	$(eval $(1)-manifest := $(call find_manifest,$(2)))
-	@$(MAKE) $($(1)-manifest)
-	$(call prerequisite,$($(1)-manifest))
+	$$(eval $(1)-manifest := $$(call find_manifest,$$(call convert_name,$(2))))
+	$$(MAKE) $$($(1)-manifest)
+	$$(call prerequisite,$$($(1)-manifest),$(1).sig)
 	@echo [ $$@ ]
-	$(SGX_SIGN) -output $(1).manifest.sgx -exec $(2) -manifest $($(1)-manifest)
+	$$(SGX_SIGN) -output $(1).manifest.sgx -exec $(2) -manifest $$($(1)-manifest)
 CLEAN_FILES += $(1).sig
 CLEAN_FILES += $(1).manifest.sgx
 endef
 
 $(foreach executable,$(GO_EXECUTABLES),$(eval $(call sgx_sign_template,$(call convert_name,$(executable)),$(executable))))
 
-clean:
-	rm -rf $(CLEAN_FILES) *.token
+# clean:
+# 	rm -rf $(CLEAN_FILES) *.token
