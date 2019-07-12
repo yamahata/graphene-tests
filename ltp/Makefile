@@ -1,5 +1,6 @@
 SRCURL = https://github.com/linux-test-project/ltp/releases/download/
-SRCVERSION = 20170116
+# SRCVERSION = 20170116
+SRCVERSION = 20190115
 SRCDIR = ltp-full-$(SRCVERSION)
 BUILDDIR = opt/ltp
 TESTCASEDIR = $(BUILDDIR)/testcases/bin
