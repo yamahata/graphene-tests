@@ -1,0 +1,169 @@
+#!$(PAL)
+
+loader.preload = file:$(SHIMPATH)
+loader.exec = file:$(EXEC_PATH)
+loader.execname = $(EXEC_PATH)
+loader.env.LD_LIBRARY_PATH = /lib:/lib/x86_64-linux-gnu:/usr/lib:/usr/lib/x86_64-linux-gnu
+loader.env.PATH = /bin:/usr/bin
+loader.env.USERNAME = root
+loader.env.HOME = /
+# loader.debug_type = none
+loader.debug_type = inline
+
+fs.mount.lib1.type = chroot
+fs.mount.lib1.path = /lib
+fs.mount.lib1.uri = file:$(LIBCDIR)
+
+fs.mount.lib2.type = chroot
+fs.mount.lib2.path = /lib/x86_64-linux-gnu
+fs.mount.lib2.uri = file:/lib/x86_64-linux-gnu
+
+fs.mount.bin.type = chroot
+fs.mount.bin.path = /bin
+fs.mount.bin.uri = file:/bin
+
+fs.mount.usr.type = chroot
+fs.mount.usr.path = /usr
+fs.mount.usr.uri = file:/usr
+
+sys.brk.size = 32M
+sys.stack.size = 4M
+
+# allow to bind on port 8000
+net.allow_bind.1 = 127.0.0.1:8000
+# allow to connect to port 8000
+net.allow_peer.1 = 127.0.0.1:8000
+
+# sgx.enclave_size = 8G
+sgx.enclave_size = 2G
+# sgx.enclave_size = 1G
+# sgx.enclave_size = 128M
+
+sgx.thread_num = 16
+sgx.debug = 1
+
+sgx.trusted_files.ld = file:$(LIBCDIR)/ld-linux-x86-64.so.2
+sgx.trusted_files.libc = file:$(LIBCDIR)/libc.so.6
+sgx.trusted_files.libdl = file:$(LIBCDIR)/libdl.so.2
+sgx.trusted_files.libm = file:$(LIBCDIR)/libm.so.6
+sgx.trusted_files.libpthread = file:$(LIBCDIR)/libpthread.so.0
+sgx.trusted_files.libnss1 = file:$(LIBCDIR)/libnss_dns.so.2
+sgx.trusted_files.libnss2 = file:/lib/x86_64-linux-gnu/libnss_compat.so.2
+sgx.trusted_files.libnss3 = file:/lib/x86_64-linux-gnu/libnss_files.so.2
+sgx.trusted_files.libtinfo = file:/lib/x86_64-linux-gnu/libtinfo.so.5
+
+sgx.allowed_files.godir = file:go
+
+# # trusted files
+# sgx.trusted_files.go_bin_go = file:go/bin/go
+# sgx.trusted_files.go_bin_gofmt = file:go/bin/gofmt
+# sgx.trusted_files.go_doc_articles_wiki_test_bash = file:go/doc/articles/wiki/test.bash
+# sgx.trusted_files.go_doc_codewalk_run = file:go/doc/codewalk/run
+# sgx.trusted_files.go_lib_time_update_bash = file:go/lib/time/update.bash
+# sgx.trusted_files.go_pkg_bootstrap_bin_asm = file:go/pkg/bootstrap/bin/asm
+# sgx.trusted_files.go_pkg_bootstrap_bin_cgo = file:go/pkg/bootstrap/bin/cgo
+# sgx.trusted_files.go_pkg_bootstrap_bin_compile = file:go/pkg/bootstrap/bin/compile
+# sgx.trusted_files.go_pkg_bootstrap_bin_link = file:go/pkg/bootstrap/bin/link
+# sgx.trusted_files.go_pkg_tool_linux_amd64_addr2line = file:go/pkg/tool/linux_amd64/addr2line
+# sgx.trusted_files.go_pkg_tool_linux_amd64_api = file:go/pkg/tool/linux_amd64/api
+# sgx.trusted_files.go_pkg_tool_linux_amd64_asm = file:go/pkg/tool/linux_amd64/asm
+# sgx.trusted_files.go_pkg_tool_linux_amd64_buildid = file:go/pkg/tool/linux_amd64/buildid
+# sgx.trusted_files.go_pkg_tool_linux_amd64_cgo = file:go/pkg/tool/linux_amd64/cgo
+# sgx.trusted_files.go_pkg_tool_linux_amd64_compile = file:go/pkg/tool/linux_amd64/compile
+# sgx.trusted_files.go_pkg_tool_linux_amd64_cover = file:go/pkg/tool/linux_amd64/cover
+# sgx.trusted_files.go_pkg_tool_linux_amd64_dist = file:go/pkg/tool/linux_amd64/dist
+# sgx.trusted_files.go_pkg_tool_linux_amd64_doc = file:go/pkg/tool/linux_amd64/doc
+# sgx.trusted_files.go_pkg_tool_linux_amd64_fix = file:go/pkg/tool/linux_amd64/fix
+# sgx.trusted_files.go_pkg_tool_linux_amd64_link = file:go/pkg/tool/linux_amd64/link
+# sgx.trusted_files.go_pkg_tool_linux_amd64_nm = file:go/pkg/tool/linux_amd64/nm
+# sgx.trusted_files.go_pkg_tool_linux_amd64_objdump = file:go/pkg/tool/linux_amd64/objdump
+# sgx.trusted_files.go_pkg_tool_linux_amd64_pack = file:go/pkg/tool/linux_amd64/pack
+# sgx.trusted_files.go_pkg_tool_linux_amd64_pprof = file:go/pkg/tool/linux_amd64/pprof
+# sgx.trusted_files.go_pkg_tool_linux_amd64_test2json = file:go/pkg/tool/linux_amd64/test2json
+# sgx.trusted_files.go_pkg_tool_linux_amd64_trace = file:go/pkg/tool/linux_amd64/trace
+# sgx.trusted_files.go_pkg_tool_linux_amd64_vet = file:go/pkg/tool/linux_amd64/vet
+# sgx.trusted_files.go_src_all_bash = file:go/src/all.bash
+# sgx.trusted_files.go_src_androidtest_bash = file:go/src/androidtest.bash
+# sgx.trusted_files.go_src_bootstrap_bash = file:go/src/bootstrap.bash
+# sgx.trusted_files.go_src_buildall_bash = file:go/src/buildall.bash
+# sgx.trusted_files.go_src_clean_bash = file:go/src/clean.bash
+# sgx.trusted_files.go_src_cmd_go_mkalldocs_sh = file:go/src/cmd/go/mkalldocs.sh
+# sgx.trusted_files.go_src_cmd_go_testdata_failssh_ssh = file:go/src/cmd/go/testdata/failssh/ssh
+# sgx.trusted_files.go_src_cmd_internal_buildid_testdata_a_elf = file:go/src/cmd/internal/buildid/testdata/a.elf
+# sgx.trusted_files.go_src_cmd_internal_buildid_testdata_a_macho = file:go/src/cmd/internal/buildid/testdata/a.macho
+# sgx.trusted_files.go_src_cmd_internal_buildid_testdata_a_pe = file:go/src/cmd/internal/buildid/testdata/a.pe
+# sgx.trusted_files.go_src_debug_dwarf_testdata_ranges_elf = file:go/src/debug/dwarf/testdata/ranges.elf
+# sgx.trusted_files.go_src_debug_dwarf_testdata_typedef_elf = file:go/src/debug/dwarf/testdata/typedef.elf
+# sgx.trusted_files.go_src_internal_trace_mkcanned_bash = file:go/src/internal/trace/mkcanned.bash
+# sgx.trusted_files.go_src_iostest_bash = file:go/src/iostest.bash
+# sgx.trusted_files.go_src_make_bash = file:go/src/make.bash
+# sgx.trusted_files.go_src_naclmake_bash = file:go/src/naclmake.bash
+# sgx.trusted_files.go_src_nacltest_bash = file:go/src/nacltest.bash
+# sgx.trusted_files.go_src_net_http_cgi_testdata_test_cgi = file:go/src/net/http/cgi/testdata/test.cgi
+# sgx.trusted_files.go_src_race_bash = file:go/src/race.bash
+# sgx.trusted_files.go_src_run_bash = file:go/src/run.bash
+# sgx.trusted_files.go_src_runtime_pprof_testdata_test32 = file:go/src/runtime/pprof/testdata/test32
+# sgx.trusted_files.go_src_runtime_pprof_testdata_test32be = file:go/src/runtime/pprof/testdata/test32be
+# sgx.trusted_files.go_src_runtime_pprof_testdata_test64 = file:go/src/runtime/pprof/testdata/test64
+# sgx.trusted_files.go_src_runtime_pprof_testdata_test64be = file:go/src/runtime/pprof/testdata/test64be
+# sgx.trusted_files.go_src_syscall_mkall_sh = file:go/src/syscall/mkall.sh
+# sgx.trusted_files.go_src_syscall_mkerrors_sh = file:go/src/syscall/mkerrors.sh
+# sgx.trusted_files.go_src_syscall_mksysnum_plan9_sh = file:go/src/syscall/mksysnum_plan9.sh
+# sgx.trusted_files.go_test_errchk = file:go/test/errchk
+
+# # trusted children
+# sgx.trusted_children.go_bin_go = file:go_bin_go.sig
+# sgx.trusted_children.go_bin_gofmt = file:go_bin_gofmt.sig
+# sgx.trusted_children.go_doc_articles_wiki_test_bash = file:go_doc_articles_wiki_test_bash.sig
+# sgx.trusted_children.go_doc_codewalk_run = file:go_doc_codewalk_run.sig
+# sgx.trusted_children.go_lib_time_update_bash = file:go_lib_time_update_bash.sig
+# sgx.trusted_children.go_pkg_bootstrap_bin_asm = file:go_pkg_bootstrap_bin_asm.sig
+# sgx.trusted_children.go_pkg_bootstrap_bin_cgo = file:go_pkg_bootstrap_bin_cgo.sig
+# sgx.trusted_children.go_pkg_bootstrap_bin_compile = file:go_pkg_bootstrap_bin_compile.sig
+# sgx.trusted_children.go_pkg_bootstrap_bin_link = file:go_pkg_bootstrap_bin_link.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_addr2line = file:go_pkg_tool_linux_amd64_addr2line.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_api = file:go_pkg_tool_linux_amd64_api.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_asm = file:go_pkg_tool_linux_amd64_asm.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_buildid = file:go_pkg_tool_linux_amd64_buildid.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_cgo = file:go_pkg_tool_linux_amd64_cgo.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_compile = file:go_pkg_tool_linux_amd64_compile.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_cover = file:go_pkg_tool_linux_amd64_cover.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_dist = file:go_pkg_tool_linux_amd64_dist.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_doc = file:go_pkg_tool_linux_amd64_doc.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_fix = file:go_pkg_tool_linux_amd64_fix.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_link = file:go_pkg_tool_linux_amd64_link.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_nm = file:go_pkg_tool_linux_amd64_nm.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_objdump = file:go_pkg_tool_linux_amd64_objdump.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_pack = file:go_pkg_tool_linux_amd64_pack.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_pprof = file:go_pkg_tool_linux_amd64_pprof.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_test2json = file:go_pkg_tool_linux_amd64_test2json.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_trace = file:go_pkg_tool_linux_amd64_trace.sig
+# sgx.trusted_children.go_pkg_tool_linux_amd64_vet = file:go_pkg_tool_linux_amd64_vet.sig
+# sgx.trusted_children.go_src_all_bash = file:go_src_all_bash.sig
+# sgx.trusted_children.go_src_androidtest_bash = file:go_src_androidtest_bash.sig
+# sgx.trusted_children.go_src_bootstrap_bash = file:go_src_bootstrap_bash.sig
+# sgx.trusted_children.go_src_buildall_bash = file:go_src_buildall_bash.sig
+# sgx.trusted_children.go_src_clean_bash = file:go_src_clean_bash.sig
+# sgx.trusted_children.go_src_cmd_go_mkalldocs_sh = file:go_src_cmd_go_mkalldocs_sh.sig
+# sgx.trusted_children.go_src_cmd_go_testdata_failssh_ssh = file:go_src_cmd_go_testdata_failssh_ssh.sig
+# sgx.trusted_children.go_src_cmd_internal_buildid_testdata_a_elf = file:go_src_cmd_internal_buildid_testdata_a_elf.sig
+# sgx.trusted_children.go_src_cmd_internal_buildid_testdata_a_macho = file:go_src_cmd_internal_buildid_testdata_a_macho.sig
+# sgx.trusted_children.go_src_cmd_internal_buildid_testdata_a_pe = file:go_src_cmd_internal_buildid_testdata_a_pe.sig
+# sgx.trusted_children.go_src_debug_dwarf_testdata_ranges_elf = file:go_src_debug_dwarf_testdata_ranges_elf.sig
+# sgx.trusted_children.go_src_debug_dwarf_testdata_typedef_elf = file:go_src_debug_dwarf_testdata_typedef_elf.sig
+# sgx.trusted_children.go_src_internal_trace_mkcanned_bash = file:go_src_internal_trace_mkcanned_bash.sig
+# sgx.trusted_children.go_src_iostest_bash = file:go_src_iostest_bash.sig
+# sgx.trusted_children.go_src_make_bash = file:go_src_make_bash.sig
+# sgx.trusted_children.go_src_naclmake_bash = file:go_src_naclmake_bash.sig
+# sgx.trusted_children.go_src_nacltest_bash = file:go_src_nacltest_bash.sig
+# sgx.trusted_children.go_src_net_http_cgi_testdata_test_cgi = file:go_src_net_http_cgi_testdata_test_cgi.sig
+# sgx.trusted_children.go_src_race_bash = file:go_src_race_bash.sig
+# sgx.trusted_children.go_src_run_bash = file:go_src_run_bash.sig
+# sgx.trusted_children.go_src_runtime_pprof_testdata_test32 = file:go_src_runtime_pprof_testdata_test32.sig
+# sgx.trusted_children.go_src_runtime_pprof_testdata_test32be = file:go_src_runtime_pprof_testdata_test32be.sig
+# sgx.trusted_children.go_src_runtime_pprof_testdata_test64 = file:go_src_runtime_pprof_testdata_test64.sig
+# sgx.trusted_children.go_src_runtime_pprof_testdata_test64be = file:go_src_runtime_pprof_testdata_test64be.sig
+# sgx.trusted_children.go_src_syscall_mkall_sh = file:go_src_syscall_mkall_sh.sig
+# sgx.trusted_children.go_src_syscall_mkerrors_sh = file:go_src_syscall_mkerrors_sh.sig
+# sgx.trusted_children.go_src_syscall_mksysnum_plan9_sh = file:go_src_syscall_mksysnum_plan9_sh.sig
+# sgx.trusted_children.go_test_errchk = file:go_test_errchk.sig

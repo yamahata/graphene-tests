@@ -1,8 +1,8 @@
 GO_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 
 OUT_OF_TREE_EXECUTABLES = \
-	bash \
-	go
+	bash
+
 IN_TREE_EXECUTABLES =
 
 GO_EXECUTABLES = \
@@ -61,27 +61,16 @@ GO_EXECUTABLES = \
 	go/src/syscall/mkerrors.sh \
 	go/src/syscall/mksysnum_plan9.sh \
 	go/test/errchk
-#GO_EXECUTABLE_IDS = $(subst .,_,$(subst /,-,$(GO_EXECUTABLES)))
 
-# we have go directory. workaroud a rule to %.manifest:%.
-go.manifest: _go.manifest
-	$(call cmd,ln_sf)
-go.manifest.sgx: _go.manifest.sgx
-	$(call cmd,ln_sf)
-go.sig: _go.sig
-	$(call cmd,ln_sf)
-all: go.manifest.sgx
+convert_name = $(subst .,_,$(subst /,-,$(1)))
+GO_EXECUTABLE_IDS = $(foreach executable,$(GO_EXECUTABLES),$(call convert_name,$(executable)))
 
 manifests = $(addsuffix .manifest,$(OUT_OF_TREE_EXECUTABLES) $(IN_TREE_EXECUTABLES))
+#$(info $(manifests))
 exec_target = $(IN_TREE_EXECUTABLES)
 target = $(manifests)
 sig_files_extra = $(addsuffix .sig,$(OUT_OF_TREE_EXECUTABLES) $(GO_EXECUTABLE_IDS))
-token_files_extra = $(addsuffix .token,$(OUT_OF_TREE_EXECUTABLES) $(GO_EXECUTABLE_IDS)) _go.token
-
-# $(addsuffix .manifest.template,$(GO_EXECUTABLE_IDS)): manifest.template
-#	ln -sf $< $@
-
-# extra_rules = -e 's:\$$(EXEC_PATH):$<:g' -e 's:-:/:g' -e 's:_:.:g'
+token_files_extra = $(addsuffix .token,$(OUT_OF_TREE_EXECUTABLES) $(GO_EXECUTABLE_IDS))
 extra_rules = -e 's:\$$(GOROOTDIR):$(GO_DIR):g'
 
 level = ../../
@@ -90,3 +79,19 @@ include ../../../../../Makefile.rules
 
 test:
 	GOCACHE=off GOROOT=$(GO_DIR)/go ./pal-Linux-SGX ./bash.manifest.sgx  ./go/src/run.bash --no-rebuild
+
+define sgx_sign_template =
+$(1).sig $(1).manifest.sgx: $(2) $(LIBPAL) $(SGX_SIGNER_KEY)
+	$(eval $(1)-manifest := $(call find_manifest,$(2)))
+	@$(MAKE) $($(1)-manifest)
+	$(call prerequisite,$($(1)-manifest))
+	@echo [ $$@ ]
+	$(SGX_SIGN) -output $(1).manifest.sgx -exec $(2) -manifest $($(1)-manifest)
+CLEAN_FILES += $(1).sig
+CLEAN_FILES += $(1).manifest.sgx
+endef
+
+$(foreach executable,$(GO_EXECUTABLES),$(eval $(call sgx_sign_template,$(call convert_name,$(executable)),$(executable))))
+
+clean:
+	rm -rf $(CLEAN_FILES)
