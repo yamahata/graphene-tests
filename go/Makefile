@@ -58,18 +58,22 @@ exec_target = $(IN_TREE_EXECUTABLES)
 target = $(manifests)
 sig_files_extra = $(addsuffix .sig,$(OUT_OF_TREE_EXECUTABLES) $(GO_EXECUTABLE_IDS))
 token_files_extra = $(addsuffix .token,$(OUT_OF_TREE_EXECUTABLES) $(GO_EXECUTABLE_IDS))
-extra_rules = -e 's:\$$(GOROOTDIR):$(GO_DIR):g'
+#extra_rules = -e 's:\$$(GOROOTDIR):$(GO_DIR):g'
+extra_rules = -e 's:\$$(GOROOTDIR):.:g'
 
 level = ../../
 include ../../Makefile
 include ../../../../../Makefile.rules
 
 test:
-	GOCACHE=off GOROOT=$(GO_DIR)/go ./pal-Linux-SGX ./bash.manifest.sgx  ./go/src/run.bash --no-rebuild
+	GOCACHE=off GOROOT=$(GO_DIR)/go ./pal-Linux-SGX ./bash.manifest.sgx	 ./go/src/run.bash --no-rebuild
+	GOCACHE=off GOROOT=$(GO_DIR)/go ./pal-Linux-SGX ./go.manifest.sgx go/bin/go tool dist test --no-rebuild
+	# GOCACHE=off GOROOT=/home/yamahata/graphene/devel/go/go PATH=$GOROOT/bin:$PATH	 ./pal-Linux-SGX ./go.manifest.sgx go/bin/go tool dist test --no-rebuild
+	# GOCACHE=off GOROOT=/home/yamahata/graphene/devel/go/go PATH=$GOROOT/bin:$PATH	 ./pal-Linux-SGX ./bash.manifest.sgx ./go/src/run.bash --no-rebuild
 
 define sgx_sign_template =
-$(1).sig $(1).manifest.sgx: $(2) $(LIBPAL) $(SGX_SIGNER_KEY)
-	$$(eval $(1)-manifest := $$(call find_manifest,$$(call convert_name,$(2))))
+$(1).sig $(1).manifest.sgx: $(2) $$(LIBPAL) $$(SGX_SIGNER_KEY)
+	$$(eval $(1)-manifest := $$(call find_manifest,$(1)))
 	$$(MAKE) $$($(1)-manifest)
 	$$(call prerequisite,$$($(1)-manifest),$(1).sig)
 	@echo [ $$@ ]
@@ -78,6 +82,18 @@ CLEAN_FILES += $(1).sig
 CLEAN_FILES += $(1).manifest.sgx
 endef
 
+# define sgx_sign_template =
+# $(GO_DIR)/$(1).sig $(GO_DIR)/$(1).manifest.sgx: $(2) $$(LIBPAL) $$(SGX_SIGNER_KEY)
+# 	$$(eval $(1)-manifest := $$(call find_manifest,$(1)))
+# 	$$(MAKE) $$($(1)-manifest)
+# 	$$(call prerequisite,$$($(1)-manifest),$(1).sig)
+# 	@echo [ $$@ ]
+# 	$$(SGX_SIGN) -output $(1).manifest.sgx -exec $(2) -manifest $$($(1)-manifest)
+# CLEAN_FILES += $(1).sig
+# CLEAN_FILES += $(1).manifest.sgx
+# endef
+
+# $(foreach executable,$(GO_EXECUTABLES),$(info $(call sgx_sign_template,$(call convert_name,$(executable)),$(executable))))
 $(foreach executable,$(GO_EXECUTABLES),$(eval $(call sgx_sign_template,$(call convert_name,$(executable)),$(executable))))
 
 # clean:
