@@ -1,7 +1,8 @@
 GO_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 
 OUT_OF_TREE_EXECUTABLES = \
-	bash
+	bash \
+	uname
 
 IN_TREE_EXECUTABLES =
 
