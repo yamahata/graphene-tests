@@ -1,0 +1,3 @@
+[submodule "go/go"]
+	path = go/go
+	url = https://github.com/yamahata/go.git
